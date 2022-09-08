@@ -163,3 +163,52 @@ themeButton.addEventListener('click', () => {
     localStorage.setItem('selected-theme', getCurrentTheme())
     localStorage.setItem('selected-icon', getCurrentIcon())
 })
+
+// function sendEmail(){
+//   Email.send({
+//     Host : "smtp.gmail.com",
+//     Username : "'mohsinkhan100502@gmail.com",
+//     Password : "Nishom@#?0022",
+//     To : 'mohsinkhan100502@gmail.com',
+//     From : document.getElementById("email").value,
+//     Subject : document.getElementById("subject").value,
+//     Body : document.getElementById("messsage").value
+// }).then(
+//   message => alert("Message Sent")
+// );
+// }
+const form = document.getElementById("contact-form");
+
+async function handleSubmit(event) {
+  event.preventDefault();
+  var status = document.getElementById("alert");
+  var data = new FormData(event.target);
+  fetch(event.target.action, {
+    method: form.method,
+    body: data,
+    headers: {
+      Accept: "application/json",
+    },
+  })
+    .then((response) => {
+      status.innerHTML = "Your message has been sent.";
+      document.querySelector(".alert_style").style.display = "block";
+
+      // hide alert after 3 seconds
+      setTimeout(function () {
+        document.querySelector(".alert_style").style.display = "none";
+      }, 4000);
+      form.reset();
+    })
+    .catch((error) => {
+      status.innerHTML =
+        "Oops! There was a problem delivering your message, please contact via other means.";
+      document.querySelector(".alert_style").style.display = "block";
+
+      // hide alert after 3 seconds
+      setTimeout(function () {
+        document.querySelector(".alert_style").style.display = "none";
+      }, 4000);
+    });
+}
+form.addEventListener("submit", handleSubmit);
